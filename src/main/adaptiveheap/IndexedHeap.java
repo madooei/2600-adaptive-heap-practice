@@ -117,22 +117,8 @@ public class IndexedHeap<T extends Comparable<T>> implements AdaptivePriorityQue
    * @throws NoSuchElementException if the item is not in this priority queue
    */
   public void remove(T item) {
-    if (item == null) {
-      throw new IllegalArgumentException();
-    }
-    Integer i = index.get(item);  // where the item sits, or null if absent
-    if (i == null) {
-      throw new NoSuchElementException();
-    }
-    index.remove(item);        // the item is leaving
-    heap[i] = heap[size - 1];  // move the last entry into the gap
-    heap[size - 1] = null;     // clear the vacated slot
-    size--;
-    if (i < size) {            // the gap was not the last slot
-      index.put(heap[i].item, i);  // the moved item now sits at i
-      sink(i);  // it may be too low...
-      swim(i);  // ...or too high; at most one of these moves it
-    }
+    // TODO: Implement me
+    throw new UnsupportedOperationException("TODO: Implement me");
   }
 
   // Returns a negative number if a has higher priority than b, zero if they
