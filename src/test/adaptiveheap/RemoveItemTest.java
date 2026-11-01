@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.fail;
  */
 public class RemoveItemTest {
 
-  private IndexedHeap<String> heap;
+  private IndexedHeap<String, Integer> heap;
 
   @BeforeEach
   public void setup() {
@@ -102,7 +102,7 @@ public class RemoveItemTest {
 
   @Test
   public void removeTheOnlyItem() {
-    IndexedHeap<String> one = new IndexedHeap<>();
+    IndexedHeap<String, Integer> one = new IndexedHeap<>();
     one.add("A", 1);
     one.remove("A");
     assertEquals(0, one.size());

@@ -24,7 +24,7 @@ public final class JobScheduler {
    * @return the served task ids, in serve order
    */
   public static List<String> serveOrder(String[][] events) {
-    AdaptivePriorityQueue<String> pq = new IndexedHeap<>();
+    AdaptivePriorityQueue<String, Integer> pq = new IndexedHeap<>();
     List<String> served = new ArrayList<>();
     for (String[] e : events) {
       if (e[0].equals("add")) {
