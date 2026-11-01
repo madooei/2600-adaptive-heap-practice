@@ -9,24 +9,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class JobSchedulerTest {
 
   @Test
-  public void theExampleFromTheProblem() {
-    String[][] events = {
-      {"add", "A", "5"},
-      {"add", "B", "3"},
-      {"add", "C", "8"},
-      {"change", "C", "1"},
-      {"serve"},
-      {"change", "A", "2"},
-      {"serve"},
-      {"serve"}
-    };
-    assertEquals(listOf("C", "A", "B"), JobScheduler.serveOrder(events));
-  }
-
-  @Test
   public void noEventsServeNothing() {
     String[][] events = {};
     assertEquals(listOf(), JobScheduler.serveOrder(events));
+  }
+
+  @Test
+  public void tasksLeftWaitingAreNotReported() {
+    String[][] events = {
+      {"add", "A", "2"},
+      {"add", "B", "3"},
+      {"serve"}
+    };
+    assertEquals(listOf("A"), JobScheduler.serveOrder(events));
   }
 
   @Test
@@ -84,13 +79,18 @@ public class JobSchedulerTest {
   }
 
   @Test
-  public void tasksLeftWaitingAreNotReported() {
+  public void changesBetweenServesReorderTheWaitingTasks() {
     String[][] events = {
-      {"add", "A", "2"},
+      {"add", "A", "5"},
       {"add", "B", "3"},
+      {"add", "C", "8"},
+      {"change", "C", "1"},
+      {"serve"},
+      {"change", "A", "2"},
+      {"serve"},
       {"serve"}
     };
-    assertEquals(listOf("A"), JobScheduler.serveOrder(events));
+    assertEquals(listOf("C", "A", "B"), JobScheduler.serveOrder(events));
   }
 
   private static List<String> listOf(String... items) {
