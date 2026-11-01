@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * A scheduler whose waiting tasks can change priority while they wait. Each
  * event is one of {"add", id, priority}, {"change", id, priority}, or
- * {"serve"}, where a smaller priority number means a more urgent task.
+ * {"serve"}. The task with the smallest priority is served first.
  */
 public final class JobScheduler {
 
