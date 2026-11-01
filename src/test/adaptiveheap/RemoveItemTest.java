@@ -13,17 +13,38 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.fail;
 
 /**
- * Tests for IndexedHeap.remove(T item), the practice problem "Cancel a Job".
- * The heap starts with the six jobs the problem draws: A 2, B 5, C 3, D 8, E 6,
- * and F 4, in slots 0 to 5.
+ * Tests for IndexedArrayHeap.remove(T item), the practice problem "Cancel a Job".
+ * The tests read the private heap array and index map by reflection.
  */
 public class RemoveItemTest {
 
-  private IndexedHeap<String, Integer> heap;
+  private IndexedArrayHeap<String, Integer> heap;
 
   @BeforeEach
   public void setup() {
-    heap = new IndexedHeap<>();
+    heap = new IndexedArrayHeap<>();
+  }
+
+  @Test
+  public void removeFromEmptyHeapThrows() {
+    try {
+      heap.remove("A");
+      fail("expected NoSuchElementException when removing from an empty queue");
+    } catch (NoSuchElementException e) {
+      return;
+    }
+  }
+
+  @Test
+  public void removeTheOnlyItemLeavesEmpty() {
+    heap.add("A", 1);
+    heap.remove("A");
+    assertEquals(0, heap.size());
+  }
+
+  // The six jobs the problem draws: A 2, B 5, C 3, D 8, E 6, and F 4, in slots
+  // 0 to 5.
+  private void addSixJobs() {
     heap.add("A", 2);
     heap.add("B", 5);
     heap.add("C", 3);
@@ -33,54 +54,53 @@ public class RemoveItemTest {
   }
 
   @Test
-  public void removeNullThrows() {
-    try {
-      heap.remove(null);
-      fail("expected IllegalArgumentException when removing null");
-    } catch (IllegalArgumentException e) {
-      return;
-    }
+  public void removedItemIsNoLongerContained() {
+    addSixJobs();
+    heap.remove("B");
+    assertFalse(heap.contains("B"));
   }
 
   @Test
-  public void removeAbsentItemThrows() {
-    try {
-      heap.remove("Z");
-      fail("expected NoSuchElementException when the item is not in the queue");
-    } catch (NoSuchElementException e) {
-      return;
-    }
+  public void removeClearsTheVacatedSlot() {
+    addSixJobs();
+    heap.remove("E");
+    assertNull(entries()[5]);
   }
 
   @Test
   public void removeTheLastSlotLeavesTheRestInPlace() {
+    addSixJobs();
     heap.remove("F");
-    assertFalse(heap.contains("F"));
     assertSlots(listOf("A", "B", "C", "D", "E"), 2, 5, 3, 8, 6);
     assertIndexMapMatchesHeap();
-    assertNull(entries()[5]);
-  }
-
-  @Test
-  public void removeWhereTheFillerSwimsUp() {
-    heap.remove("E");
-    assertFalse(heap.contains("E"));
-    assertSlots(listOf("A", "F", "C", "D", "B"), 2, 4, 3, 8, 5);
-    assertIndexMapMatchesHeap();
-    assertNull(entries()[5]);
   }
 
   @Test
   public void removeWhereTheFillerStaysPut() {
+    addSixJobs();
     heap.remove("B");
-    assertFalse(heap.contains("B"));
     assertSlots(listOf("A", "F", "C", "D", "E"), 2, 4, 3, 8, 6);
     assertIndexMapMatchesHeap();
   }
 
   @Test
+  public void removeWhereTheFillerSwimsUp() {
+    addSixJobs();
+    heap.remove("E");
+    assertSlots(listOf("A", "F", "C", "D", "B"), 2, 4, 3, 8, 5);
+    assertIndexMapMatchesHeap();
+  }
+
+  @Test
+  public void removeTheRootSinksTheFiller() {
+    addSixJobs();
+    heap.remove("A");
+    assertSlots(listOf("C", "B", "F", "D", "E"), 3, 5, 4, 8, 6);
+    assertIndexMapMatchesHeap();
+  }
+
+  @Test
   public void removeWhereTheFillerSinks() {
-    heap = new IndexedHeap<>();
     heap.add("A", 1);
     heap.add("B", 2);
     heap.add("C", 9);
@@ -94,28 +114,15 @@ public class RemoveItemTest {
   }
 
   @Test
-  public void removeTheRoot() {
-    heap.remove("A");
-    assertEquals("C", heap.peek());
-    assertIndexMapMatchesHeap();
-  }
-
-  @Test
-  public void removeTheOnlyItem() {
-    IndexedHeap<String, Integer> one = new IndexedHeap<>();
-    one.add("A", 1);
-    one.remove("A");
-    assertEquals(0, one.size());
-  }
-
-  @Test
-  public void theRestAreServedInPriorityOrder() {
+  public void itemsLeftAfterRemoveServeInPriorityOrder() {
+    addSixJobs();
     heap.remove("C");
     assertEquals(listOf("A", "F", "B", "E", "D"), drain());
   }
 
   @Test
   public void removeEveryItemEmptiesTheHeap() {
+    addSixJobs();
     String[] order = {"C", "A", "F", "D", "B", "E"};
     for (String item : order) {
       heap.remove(item);
@@ -123,6 +130,29 @@ public class RemoveItemTest {
     assertEquals(0, heap.size());
   }
 
+  @Test
+  public void removeNullThrows() {
+    addSixJobs();
+    try {
+      heap.remove(null);
+      fail("expected IllegalArgumentException when removing null");
+    } catch (IllegalArgumentException e) {
+      return;
+    }
+  }
+
+  @Test
+  public void removeAbsentItemThrows() {
+    addSixJobs();
+    try {
+      heap.remove("Z");
+      fail("expected NoSuchElementException when the item is not in the queue");
+    } catch (NoSuchElementException e) {
+      return;
+    }
+  }
+
+  // Removes every item, highest priority first, and returns them in that order.
   private List<String> drain() {
     List<String> served = new ArrayList<>();
     while (heap.size() > 0) {
