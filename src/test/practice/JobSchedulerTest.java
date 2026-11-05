@@ -40,6 +40,17 @@ public class JobSchedulerTest {
   }
 
   @Test
+  public void prioritiesCompareAsNumbers() {
+    String[][] events = {
+      {"add", "A", "10"},
+      {"add", "B", "9"},
+      {"serve"},
+      {"serve"}
+    };
+    assertEquals(listOf("B", "A"), JobScheduler.serveOrder(events));
+  }
+
+  @Test
   public void aLowerNumberMovesATaskAhead() {
     String[][] events = {
       {"add", "A", "5"},
