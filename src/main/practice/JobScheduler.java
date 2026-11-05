@@ -1,8 +1,5 @@
 package practice;
 
-import adaptiveheap.AdaptivePriorityQueue;
-import adaptiveheap.IndexedArrayHeap;
-import java.util.ArrayList;
 import java.util.List;
 
 /** A solution to the problem of serving tasks whose priorities change. */
