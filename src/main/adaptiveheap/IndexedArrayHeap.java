@@ -118,13 +118,18 @@ public class IndexedArrayHeap<T extends Comparable<T>, P extends Comparable<P>>
     if (i == null) {
       throw new NoSuchElementException();
     }
+    P old = heap[i].priority;           // the priority that leaves slot i
     swap(i, size - 1);                  // the item moves to the last slot
     index.remove(heap[size - 1].item);  // the item is leaving
     heap[size - 1] = null;              // clear the vacated slot
     size--;
     if (i < size) {                     // the gap was not the last slot
-      sink(i);  // it may be too low...
-      swim(i);  // ...or too high; at most one of these moves it
+      P priority = heap[i].priority;    // the priority now at slot i
+      if (compare(priority, old) < 0) {
+        swim(i);  // higher priority now: move up
+      } else if (compare(priority, old) > 0) {
+        sink(i);  // lower priority now: move down
+      }
     }
   }
 
