@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # Compile all source into out/ and run one practice demo, e.g.:
-#   scripts/run.sh practice.JobSchedulerDemo
+#   scripts/run.sh practice.RemoveItemDemo
 set -e
 cd "$(dirname "$0")/.."
 if [ $# -ne 1 ]; then
-  echo "usage: scripts/run.sh <demo class>, e.g. scripts/run.sh practice.JobSchedulerDemo" >&2
+  echo "usage: scripts/run.sh <demo class>, e.g. scripts/run.sh practice.RemoveItemDemo" >&2
   exit 1
 fi
 javac -d out $(find src/main -name "*.java")
