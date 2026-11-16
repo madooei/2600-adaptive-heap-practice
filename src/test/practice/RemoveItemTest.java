@@ -58,49 +58,49 @@ public class RemoveItemTest {
   }
 
   @Test
-  public void removeTheLastSlotLeavesTheRestInPlace() {
+  public void removeTheItemInTheLastSlotLeavesTheRestInPlace() {
     addSixJobs();
     heap.remove("F");
     assertSlots(listOf("A", "B", "C", "D", "E"), 2, 5, 3, 8, 6);
   }
 
   @Test
-  public void removeTheLastSlotKeepsTheMapCorrect() {
+  public void removeTheItemInTheLastSlotKeepsTheMapCorrect() {
     addSixJobs();
     heap.remove("F");
     assertIndexMapMatchesHeap();
   }
 
   @Test
-  public void removeWhereTheFillerStaysPut() {
+  public void removeWhereTheLastEntryStaysPut() {
     addSixJobs();
     heap.remove("B");
     assertSlots(listOf("A", "F", "C", "D", "E"), 2, 4, 3, 8, 6);
   }
 
   @Test
-  public void removeRecordsTheSlotOfAFillerThatStaysPut() {
+  public void removeRecordsTheSlotWhenTheLastEntryStaysPut() {
     addSixJobs();
     heap.remove("B");
     assertIndexMapMatchesHeap();
   }
 
   @Test
-  public void removeWhereTheFillerSwimsUp() {
+  public void removeWhereTheLastEntrySwimsUp() {
     addSixJobs();
     heap.remove("E");
     assertSlots(listOf("A", "F", "C", "D", "B"), 2, 4, 3, 8, 5);
   }
 
   @Test
-  public void removeRecordsTheSlotsOfAFillerThatSwims() {
+  public void removeRecordsTheSlotsWhenTheLastEntrySwims() {
     addSixJobs();
     heap.remove("E");
     assertIndexMapMatchesHeap();
   }
 
   @Test
-  public void removeTheRootSinksTheFiller() {
+  public void removeTheRootSinksTheLastEntry() {
     addSixJobs();
     heap.remove("A");
     assertSlots(listOf("C", "B", "F", "D", "E"), 3, 5, 4, 8, 6);
@@ -114,21 +114,21 @@ public class RemoveItemTest {
   }
 
   @Test
-  public void removeWhereTheFillerSinksTwoLevels() {
+  public void removeWhereTheLastEntrySinksTwoLevels() {
     addNineJobs();
     heap.remove("B");
     assertSlots(listOf("A", "D", "C", "H", "E", "F", "G", "I"), 1, 3, 9, 5, 4, 10, 11, 12);
   }
 
   @Test
-  public void removeRecordsTheSlotsOfAFillerThatSinksTwoLevels() {
+  public void removeRecordsTheSlotsWhenTheLastEntrySinksTwoLevels() {
     addNineJobs();
     heap.remove("B");
     assertIndexMapMatchesHeap();
   }
 
   @Test
-  public void removeWhereTheFillerSwimsTwoLevels() {
+  public void removeWhereTheLastEntrySwimsTwoLevels() {
     addTwelveJobs();
     heap.remove("H");
     assertSlots(listOf("A", "L", "C", "B", "E", "F", "G", "D", "I", "J", "K"),
@@ -136,7 +136,7 @@ public class RemoveItemTest {
   }
 
   @Test
-  public void removeRecordsTheSlotsOfAFillerThatSwimsTwoLevels() {
+  public void removeRecordsTheSlotsWhenTheLastEntrySwimsTwoLevels() {
     addTwelveJobs();
     heap.remove("H");
     assertIndexMapMatchesHeap();
