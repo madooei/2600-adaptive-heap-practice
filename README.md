@@ -20,8 +20,8 @@ code/
       adaptiveheap/
         AdaptivePriorityQueue.java      # the AdaptivePriorityQueue ADT
         IndexedArrayHeap.java           # the chapter's IndexedArrayHeap, plus remove(item)
-      practice/
-        RemoveItemDemo.java             # demo of remove(item)
+      demo/                             # one demo per class you implement
+        IndexedArrayHeapDemo.java
       map/
         Map.java                        # the Map ADT
         TreeMap.java                    # the AVL tree map from the TreeMap chapter
@@ -40,11 +40,11 @@ code/
 
 - `scripts/test.sh` — compiles everything and runs the full JUnit suite.
 - `scripts/test.sh practice.RemoveItemTest` — compiles everything and runs only that test class.
-- `scripts/run.sh practice.RemoveItemDemo` — compiles everything and runs the demo.
+- `scripts/run.sh demo.IndexedArrayHeapDemo` — compiles everything and runs that one demo. Every class you implement has its own demo, `<Class>Demo`.
 
 ## What's here
 
 - `adaptiveheap.IndexedArrayHeap<T, P>` — the chapter's `IndexedArrayHeap` with one more public method, `remove(T item)`. It looks the item up in the index map, moves the last entry into the gap, and compares the priority now at that slot with the removed item's priority, the way `changePriority` does: it swims if the new priority is smaller and sinks if it is larger.
 - `adaptiveheap.AdaptivePriorityQueue<T, P>`, `map.Map<K, V>`, `map.TreeMap<K, V>`, `stack.Stack<T>`, and `stack.LinkedStack<T>` — copied unchanged from the chapter so this code compiles and runs on its own.
-- `practice.RemoveItemDemo` — a demo that runs the example from the problem.
+- `demo.IndexedArrayHeapDemo` — a demo of `remove(item)` on the example from the problem.
 - `practice.RemoveItemTest` — tests for the problem. They read the heap array and the index map through reflection.

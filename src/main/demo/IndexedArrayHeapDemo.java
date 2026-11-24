@@ -1,11 +1,11 @@
-package practice;
+package demo;
 
 import adaptiveheap.IndexedArrayHeap;
 
 /** A demo of IndexedArrayHeap.remove(item): one job is canceled before it is served. */
-public final class RemoveItemDemo {
+public final class IndexedArrayHeapDemo {
 
-  private RemoveItemDemo() {
+  private IndexedArrayHeapDemo() {
     // This class should not be instantiated!
   }
 
@@ -17,14 +17,17 @@ public final class RemoveItemDemo {
     jobs.add("D", 8);
     jobs.add("E", 6);
     jobs.add("F", 4);
+    System.out.println("jobs waiting: " + jobs.size());
 
+    // Cancel job E. Expect E to be gone and 5 jobs left.
     jobs.remove("E");
-    System.out.println("Is E still waiting? " + jobs.contains("E"));  // false
-    System.out.println("Jobs waiting: " + jobs.size());               // 5
+    System.out.println("is E still waiting? " + jobs.contains("E"));
+    System.out.println("jobs waiting: " + jobs.size());
 
-    System.out.print("Serve order: ");
+    // Serve the rest by priority. Expect A C F B D.
+    System.out.print("serve order: ");
     while (jobs.size() > 0) {
-      System.out.print(jobs.peek() + " ");  // A C F B D
+      System.out.print(jobs.peek() + " ");
       jobs.remove();
     }
     System.out.println();
