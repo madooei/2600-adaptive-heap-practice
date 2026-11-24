@@ -42,7 +42,7 @@ code/
 - `scripts/test.sh practice.RemoveItemTest` — compiles everything and runs only that test class.
 - `scripts/run.sh demo.IndexedArrayHeapDemo` — compiles everything and runs that one demo. Every class you implement has its own demo, `<Class>Demo`.
 
-## What's here
+## Contents
 
 - `adaptiveheap.IndexedArrayHeap<T, P>` — the chapter's `IndexedArrayHeap` with one more public method, `remove(T item)`. It looks the item up in the index map, moves the last entry into the gap, and compares the priority now at that slot with the removed item's priority, the way `changePriority` does: it swims if the new priority is smaller and sinks if it is larger.
 - `adaptiveheap.AdaptivePriorityQueue<T, P>`, `map.Map<K, V>`, `map.TreeMap<K, V>`, `stack.Stack<T>`, and `stack.LinkedStack<T>` — copied unchanged from the chapter so this code compiles and runs on its own.
